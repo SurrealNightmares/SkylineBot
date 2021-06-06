@@ -10,7 +10,7 @@ import java.util.EnumSet;
 public class SkylineBot {
     public static void main(String[] args) throws LoginException {
 
-        JDA jda = JDABuilder.createDefault("ODQ5MjI1NzM3MDI1NDg2OTE4.YLYFGQ.QtlAflaVPNH2rT1SDhJEoHhPttE",
+        JDA jda = JDABuilder.createDefault("token here",
                 GatewayIntent.GUILD_MEMBERS,
                 GatewayIntent.GUILD_MESSAGES,
                 GatewayIntent.GUILD_VOICE_STATES).disableCache(EnumSet.of(
