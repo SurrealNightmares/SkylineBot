@@ -1,6 +1,6 @@
 public interface iCommand {
 
-    void handle();
+    void handle(CommandContext ctx);
 
     String getName();
 

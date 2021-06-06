@@ -11,46 +11,50 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 
-public class Listener extends ListenerAdapter{
+public class Listener extends ListenerAdapter {
 
- private static final Logger LOGGER = LoggerFactory.getLogger(Listener.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Listener.class);
+    private final CommandManager manager = new CommandManager();
 
- @Override
- public void onReady(@NotNull ReadyEvent event){
-  super.onReady(event);
-  LOGGER.info("{} is ready", event.getJDA().getSelfUser());
- }
+    @Override
+    public void onReady(@NotNull ReadyEvent event) {
+        super.onReady(event);
+        LOGGER.info("{} is ready", event.getJDA().getSelfUser());
+    }
 
- @Override
- public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event){
-  super.onGuildMessageReceived(event);
+    @Override
+    public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
+        super.onGuildMessageReceived(event);
 
-  User user = event.getAuthor();
+        User user = event.getAuthor();
 
-  if(user.isBot() || event.isWebhookMessage()){
-   return;
-  }
+        if (user.isBot() || event.isWebhookMessage()) {
+            return;
+        }
 
-  String raw = event.getMessage().getContentRaw();
-  String prefix = "$";
+        String raw = event.getMessage().getContentRaw();
+        String prefix = "$";
 
-  if(raw.equalsIgnoreCase(prefix + "shutdown") && user.getId().equals("160824196362928138")){
-   event.getChannel().sendMessage("Shutting down!").queue();
-   LOGGER.info("shutdown");
-   event.getJDA().shutdown();
-   BotCommons.shutdown(event.getJDA());
-  }
-  else if(raw.equalsIgnoreCase(prefix + "info")){
-   EmbedBuilder info = new EmbedBuilder();
-   info.setTitle("Bot information");
-   info.setDescription("A bot created by Surry for fun.");
-   info.addField("Creator", "Surry", false);
-   info.setColor(0xffffff);
+        if (raw.equalsIgnoreCase(prefix + "shutdown") && user.getId().equals("160824196362928138")) {
+            event.getChannel().sendMessage("Shutting down!").queue();
+            LOGGER.info("shutdown");
+            event.getJDA().shutdown();
+            BotCommons.shutdown(event.getJDA());
+        } else if (raw.equalsIgnoreCase(prefix + "info")) {
+            EmbedBuilder info = new EmbedBuilder();
+            info.setTitle("Bot information");
+            info.setDescription("A bot created by Surry for fun.");
+            info.addField("Creator", "Surry", false);
+            info.setColor(0xffffff);
 
-   event.getChannel().sendMessage(info.build()).queue();
-  }
+            event.getChannel().sendMessage(info.build()).queue();
+        }
 
- }
+        if(raw.startsWith(prefix)){
+            manager.handle(event, prefix);
+        }
+
+    }
 
 
 }
