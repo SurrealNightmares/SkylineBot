@@ -1,4 +1,4 @@
-public interface iCommand {
+public interface ICommand {
 
     void handle(CommandContext ctx);
 

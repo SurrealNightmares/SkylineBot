@@ -18,7 +18,7 @@ public class SkylineBot {
                 CacheFlag.ACTIVITY,
                 CacheFlag.EMOTE
         )).enableCache(CacheFlag.VOICE_STATE).addEventListeners(new Listener())
-                .setActivity(Activity.playing("Bangers"))
+                .setActivity(Activity.playing("things and stuff."))
                 .build();
 
     }

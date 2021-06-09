@@ -8,8 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-
 
 public class Listener extends ListenerAdapter {
 
@@ -19,7 +17,7 @@ public class Listener extends ListenerAdapter {
     @Override
     public void onReady(@NotNull ReadyEvent event) {
         super.onReady(event);
-        LOGGER.info("{} is ready", event.getJDA().getSelfUser());
+        LOGGER.info("{} is ready.", event.getJDA().getSelfUser());
     }
 
     @Override
@@ -43,7 +41,7 @@ public class Listener extends ListenerAdapter {
         } else if (raw.equalsIgnoreCase(prefix + "info")) {
             EmbedBuilder info = new EmbedBuilder();
             info.setTitle("Bot information");
-            info.setDescription("A bot created by Surry for fun.");
+            info.setDescription("A bot created by Surry for fun.\n A fork from Code Wizard's tutorial bot.");
             info.addField("Creator", "Surry", false);
             info.setColor(0xffffff);
 

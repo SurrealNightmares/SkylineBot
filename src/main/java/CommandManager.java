@@ -9,43 +9,46 @@ import java.util.regex.Pattern;
 
 public class CommandManager {
 
-    private final List<iCommand> commands = new ArrayList<>();
+    private final List<ICommand> commands = new ArrayList<>();
 
     public CommandManager() {
-
+        addCommand(new PingCommand());
+        addCommand(new MemeCommand());
+        addCommand(new JoinCommand());
+        addCommand(new PlayCommand());
+        addCommand(new LeaveCommand());
     }
 
-    private void addCommand(iCommand cmd) {
+    private void addCommand(ICommand cmd) {
         boolean commandName = this.commands.stream().anyMatch((it -> it.getName().equalsIgnoreCase(cmd.getName())));
-        if (commandName) {
+        if(commandName) {
             throw new IllegalArgumentException("Command is already in the list.");
         }
 
         commands.add(cmd);
-
     }
 
-    public List<iCommand> getCommands(){
+    public List<ICommand> getCommands() {
         return commands;
     }
 
     @Nullable
-    public iCommand getCommand(String search){
-        for(iCommand cmd : this.commands){
-            if(cmd.getName().equals(search.toLowerCase())){
+    public ICommand getCommand(String search) {
+        for (ICommand cmd : this.commands) {
+            if(cmd.getName().equals(search.toLowerCase())) {
                 return cmd;
             }
         }
         return null;
     }
 
-    void handle(GuildMessageReceivedEvent event, String prefix){
-        String[] split = event.getMessage().getContentRaw().replaceFirst("(?i)" + Pattern.quote(prefix),"")
+    void handle(GuildMessageReceivedEvent event, String prefix) {
+        String[] split = event.getMessage().getContentRaw().replaceFirst("(?i)" + Pattern.quote(prefix), "")
                 .split("\\s+");
         String invoke = split[0].toLowerCase();
-        iCommand cmd = this.getCommand(invoke);
+        ICommand cmd = this.getCommand(invoke);
 
-        if(cmd != null){
+        if (cmd != null) {
             event.getChannel().sendTyping().queue();
             List<String> args = Arrays.asList(split).subList(1, split.length);
 
@@ -53,6 +56,12 @@ public class CommandManager {
 
             cmd.handle(ctx);
         }
+
+
+
     }
+
+
+
 
 }
